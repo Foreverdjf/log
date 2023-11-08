@@ -1,0 +1,17 @@
+{
+    "name": "forever/log",
+    "description": "test log",
+    "license": "MIT",
+    "autoload": {
+        "files": [
+            "src/Neo/Functions/functions.php"
+        ],
+        "psr-4": {
+            "Neo\\": "src/Neo"
+        }
+    },
+    "require": {
+        "monolog/monolog": "^1.19",
+        "nesbot/carbon": "2.41.3"
+    }
+}
