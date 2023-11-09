@@ -1,6 +1,6 @@
 <?php
 
-namespace foreverdjf\log\Neo\Exception;
+namespace Neo\Exception;
 
 /**
  * 数据库异常

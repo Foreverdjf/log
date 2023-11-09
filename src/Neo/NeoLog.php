@@ -1,6 +1,6 @@
 <?php
 
-namespace foreverdjf\log\Neo;
+namespace Neo;
 
 use Monolog\Formatter\JsonFormatter;
 use Monolog\Formatter\LineFormatter;
