@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo\Exception;
+namespace forever\log\Neo\Exception;
 
 /**
  *  Neo 异常

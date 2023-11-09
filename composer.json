@@ -1,5 +1,5 @@
 {
-    "name": "forever/log",
+    "name": "foreverdjf/log",
     "description": "test log",
     "type": "library",
     "license": "MIT",
@@ -7,7 +7,9 @@
         "files": [
             "src/Neo/Functions/functions.php"
         ],
-        "psr-4": {"Neo\\": "src/Neo"}
+        "psr-4": {
+            "forever\\log\\Neo\\": "src/Neo"
+        }
     },
     "require": {
         "monolog/monolog": "^1.19",

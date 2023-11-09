@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo\Http;
+namespace forever\log\Neo\Http;
 
 /*
  * Ways of cleaning input. Should be mostly self-explanatory.
