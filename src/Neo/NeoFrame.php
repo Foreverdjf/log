@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo;
+namespace foreverdjf\log\Neo;
 
 use Neo\Exception\ResourceNotFoundException;
 use Neo\Http\Request;

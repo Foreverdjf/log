@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo\Validate;
+namespace foreverdjf\log\Neo\Validate;
 
 use Neo\NeoFrame;
 use Neo\NeoLog;
