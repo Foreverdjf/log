@@ -17,6 +17,12 @@ use Neo\Exception\ResourceNotFoundException;
 class NeoLog
 {
     /**
+     * The base path for the system
+     *
+     * @var string
+     */
+    protected static $ABSPATH = '';
+    /**
      * @var array
      */
     private static $fileHandler = null;
@@ -355,7 +361,7 @@ class NeoLog
         $lines = [];
         foreach ($traces as $trace) {
             $lines[] = str_replace(
-                    NeoFrame::getAbsPath(),
+                static::getAbsPath(),
                 DIRECTORY_SEPARATOR,
                 $trace['file']
             ) . ':' . (int) $trace['line'];
@@ -436,6 +442,25 @@ class NeoLog
     }
 
     /**
+     * 文件日志级别
+     *
+     * @return int
+     */
+    public static function getAbsPath($absPath = null)
+    {
+        if(static::$ABSPATH){
+            return static::$ABSPATH;
+        }
+        // 如果定义了常量
+        if (empty($absPath) && defined('ABSPATH') && ABSPATH) {
+            $absPath = ABSPATH;
+        }
+        static::$ABSPATH = rtrim($absPath, '\/');
+        
+        return static::$ABSPATH;
+    }
+
+    /**
      * 生成日志ID
      *
      * @return string
@@ -474,6 +499,7 @@ class NeoLogProcessor
         $record['loggertime'] = NeoLog::formatDate();
         $record['line'] = $record['context']['line'];
         $record['type'] = $record['context']['type'];
+        $record['extra']['host'] = Utility::gethostname();
         unset($record['context']['line'], $record['context']['type']);
         return $record;
     }
