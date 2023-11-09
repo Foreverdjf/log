@@ -1,6 +1,6 @@
 <?php
 
-namespace forever\log\Neo;
+namespace Neo;
 
 use Neo\Exception\ResourceNotFoundException;
 use Neo\Http\Request;
@@ -256,7 +256,7 @@ class NeoFrame implements \ArrayAccess
      * @param  string $lang
      * @return string Language
      */
-    public static function language(string $lang = 'zh-CN')
+    public static function language($lang = 'zh-CN')
     {
         return (defined('NEO_LANG') && NEO_LANG) ? NEO_LANG : $lang;
     }

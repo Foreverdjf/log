@@ -1,6 +1,6 @@
 <?php
 
-namespace forever\log\Neo\Exception;
+namespace Neo\Exception;
 
 /**
  *  业务逻辑异常
