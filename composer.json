@@ -1,14 +1,13 @@
 {
     "name": "forever/log",
     "description": "test log",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "files": [
             "src/Neo/Functions/functions.php"
         ],
-        "psr-4": {
-            "Neo\\": "src/Neo"
-        }
+        "psr-4": {"Neo\\": "src/Neo"}
     },
     "require": {
         "monolog/monolog": "^1.19",

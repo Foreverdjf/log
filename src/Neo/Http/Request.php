@@ -125,7 +125,7 @@ class Request
         }
 
         // overwrite GET[x] and REQUEST[x] with POST[x] if it exists (overrides server's GPC order preference)
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach (array_keys($_POST) as $key) {
                 if (isset($_GET["{$key}"])) {
                     $_GET["{$key}"] = $_REQUEST["{$key}"] = $_POST["{$key}"];
@@ -184,13 +184,15 @@ class Request
         if (strpos($_SERVER['SCRIPT_NAME'], 'php.cgi') !== false) {
             unset($_SERVER['PATH_INFO']);
         }
-
-        $httphost = $_SERVER['HTTP_HOST'] ?: $_SERVER['SERVER_NAME'];
-        // 修正HTTP_HOST带端口的BUG
-        [$httphost, $port] = explode(':', $httphost);
+        $httphost = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : (isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '');
+        $port = '';
+        if($httphost){
+            // 修正HTTP_HOST带端口的BUG
+            [$httphost, $port] = explode(':', $httphost);
+        }
 
         // 添加端口
-        $port = $port ?: $_SERVER['SERVER_PORT'];
+        $port = $port ?: (isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : '');
 
         // 443，HTTPS负载均衡用
         if ($port && $port != 80 && $port != 443) {
@@ -204,7 +206,7 @@ class Request
 
         define('SCHEME', $scheme);
 
-        define('USERAGENT', $_SERVER['HTTP_USER_AGENT']);
+        define('USERAGENT', isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '');
     }
 
     /**
@@ -519,12 +521,12 @@ class Request
      */
     public static function fetchScriptpath()
     {
-        if ($_SERVER['REQUEST_URI']) {
+        if (isset($_SERVER['REQUEST_URI'])) {
             $scriptpath = $_SERVER['REQUEST_URI'];
         } else {
-            $scriptpath = $_SERVER['PATH_INFO'] ?: $_SERVER['REDIRECT_URL'] ?: $_SERVER['PHP_SELF'];
+            $scriptpath = isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : $_SERVER['PHP_SELF'];
 
-            if ($_SERVER['QUERY_STRING']) {
+            if (isset($_SERVER['QUERY_STRING'])) {
                 $scriptpath .= '?' . $_SERVER['QUERY_STRING'];
             }
         }
@@ -548,7 +550,7 @@ class Request
     public static function fetchHttpReferer()
     {
         $scriptpath = static::fetchScriptpath();
-        $url = $_SERVER['HTTP_REFERER'];
+        $url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
 
         if ($url == $scriptpath || empty($url)) {
             $url = '';
@@ -566,7 +568,7 @@ class Request
      */
     public static function fetchAltIp()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        return isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';
     }
 
     /**
@@ -576,6 +578,9 @@ class Request
      */
     public static function fetchIp()
     {
+        if(!isset($_SERVER['REMOTE_ADDR'])){
+            return '';
+        }
         $_ip = $_SERVER['REMOTE_ADDR'];
 
         if (isset($_SERVER['HTTP_X_REAL_IP'])) {

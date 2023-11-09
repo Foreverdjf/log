@@ -178,6 +178,6 @@ class Utility
      */
     public static function gethostname()
     {
-        return $_SERVER['NEO_HOST'] ? : gethostname();
+        return gethostname();
     }
 }

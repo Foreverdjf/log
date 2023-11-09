@@ -26,11 +26,6 @@ class NeoLog
     private static $streamHandler = null;
 
     /**
-     * @var RedisHandler
-     */
-    private static $redisHandler = null;
-
-    /**
      * Adds a log record at the DEBUG level.
      *
      * This method allows for compatibility with common interfaces.
@@ -212,7 +207,6 @@ class NeoLog
                 $args,
                 JSON_UNESCAPED_UNICODE
             ) . PHP_EOL . PHP_EOL;
-
             error_log($msg, 3, static::getFileLogDir() . DIRECTORY_SEPARATOR . 'neologerror.log');
 
             unset($args, $msg);
@@ -232,7 +226,6 @@ class NeoLog
         $type || $type = 'neo';
 
         $handlers = [];
-
         // 写到文件
         if (defined('NEO_LOGGER_FILE') && NEO_LOGGER_FILE) {
             $fileHandler = static::log2File($type);
@@ -288,7 +281,6 @@ class NeoLog
             true,
             0664
         );
-
         $stream->setFormatter(static::loggerFormatter($fmt));
         $stream->pushProcessor(new NeoLogFileProcessor());
 
@@ -390,7 +382,7 @@ class NeoLog
      */
     public static function formatDate($format = 'Y-m-d H:i:s')
     {
-        return formatDate($format);
+        return date($format);
     }
 
     /**
@@ -464,13 +456,7 @@ class NeoLogProcessor
         $record['loggertime'] = NeoLog::formatDate();
         $record['line'] = $record['context']['line'];
         $record['type'] = $record['context']['type'];
-
-        $record['extra']['userid'] = (int) neo()->user['userid'];
-        $record['extra']['username'] = (string) neo()->user['username'];
-        $record['extra']['host'] = Utility::gethostname();
-
         unset($record['context']['line'], $record['context']['type']);
-
         return $record;
     }
 }
