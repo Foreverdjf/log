@@ -1,6 +1,7 @@
 {
     "name": "forever/log",
     "description": "test log",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "files": [

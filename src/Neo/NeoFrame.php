@@ -32,6 +32,13 @@ class NeoFrame implements \ArrayAccess
     public $request;
 
     /**
+     * Internationalization
+     *
+     * @var array
+     */
+    public $i18n = [];
+
+    /**
      * User Information
      *
      * @var array
@@ -67,18 +74,10 @@ class NeoFrame implements \ArrayAccess
     public function __construct(string $absPath = null)
     {
         timerStart();
-
-        // Error Handler
-        set_error_handler('neoErrorHandler', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-
-        // Exception Handler
-        set_exception_handler('neoExceptionHandler');
-
         // 如果定义了常量
         if (empty($absPath) && defined('ABSPATH') && ABSPATH) {
             $absPath = ABSPATH;
         }
-
         if ($absPath) {
             $this->setAbsPath($absPath);
         }
@@ -137,8 +136,10 @@ class NeoFrame implements \ArrayAccess
             if (empty($dir)) {
                 throw new ResourceNotFoundException(__('Logger dir cannot be null.'));
             }
-
-            if (! is_dir($dir) || ! is_writeable($dir)) {
+            if (!is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            if (! is_writeable($dir)) {
                 throw new ResourceNotFoundException(__f('Logger dir %s cannot be writeable.', $dir));
             }
         }
@@ -247,5 +248,16 @@ class NeoFrame implements \ArrayAccess
     public function __set($key, $value)
     {
         $this[$key] = $value;
+    }
+
+    /**
+     * 获取系统缺省的语言设置，默认是zh-CN
+     *
+     * @param  string $lang
+     * @return string Language
+     */
+    public static function language(string $lang = 'zh-CN')
+    {
+        return (defined('NEO_LANG') && NEO_LANG) ? NEO_LANG : $lang;
     }
 }

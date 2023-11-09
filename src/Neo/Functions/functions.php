@@ -105,6 +105,50 @@ function getDebugBacktrace($index = 0,$limit = 0)
 }
 
 /**
+ * 返回翻译后的短语
+ *
+ * @param string $text 待翻译的短语
+ *
+ * @return string 已经翻译的短语
+ */
+function __(string $text)
+{
+    return \Neo\I18n::__($text);
+}
+
+/**
+ * 显示翻译后的短语
+ *
+ * @param string $text 待翻译的短语
+ */
+function _e(string $text)
+{
+    echo __($text);
+}
+
+/**
+ * 返回格式化后的已经翻译的短语
+ *
+ * @return string 已经翻译的短语
+ */
+function __f()
+{
+    $args = func_get_args();
+
+    if (empty($args)) {
+        return '';
+    }
+    if (count($args) == 1) {
+        return __($args[0]);
+    }
+
+    $str = $args[0];
+    unset($args[0]);
+
+    return vsprintf(__($str), $args);
+}
+
+/**
  * @param $ex
  *
  * @return array
@@ -118,7 +162,7 @@ function processExceptionForNeolog($ex)
     $traces[] = str_ireplace(\Neo\NeoFrame::getAbsPath(), '', "{$ex->getFile()}({$ex->getLine()})");
 
     foreach ($ex->getTrace() as $trace) {
-        if ($trace['line']) {
+        if (isset($trace['line'])) {
             // 忽略composer组件
             if (stripos($trace['file'], 'vendor/') !== false) {
                 break;
