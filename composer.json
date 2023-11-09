@@ -4,9 +4,6 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
-        "classmap": [
-            "src/CodeIgniter/"
-        ],
         "files": [
             "src/Neo/Functions/functions.php"
         ],
@@ -15,7 +12,6 @@
         }
     },
     "require": {
-        "monolog/monolog": "^1.19",
-        "nesbot/carbon": "2.41.3"
+        "monolog/monolog": "^1.19"
     }
 }

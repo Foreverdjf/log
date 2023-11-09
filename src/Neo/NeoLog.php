@@ -9,6 +9,7 @@ use Monolog\Handler\RedisHandler;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger as Monologger;
+use Neo\Exception\ResourceNotFoundException;
 
 /**
  * Class NeoLog
@@ -392,7 +393,24 @@ class NeoLog
      */
     public static function getFileLogDir()
     {
-        return neo()['logger_dir'];
+        $dir = '/data/weblog/web_pc';
+        // 使用文件记录日志
+        if (defined('NEO_LOGGER_FILE') && NEO_LOGGER_FILE) {
+            // 日志文件存放路径
+            if (defined('NEO_LOGGER_DIR') && NEO_LOGGER_DIR) {
+                $dir = NEO_LOGGER_DIR;
+            }
+            if (empty($dir)) {
+                throw new ResourceNotFoundException(__('Logger dir cannot be null.'));
+            }
+            if (!is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+            if (! is_writeable($dir)) {
+                throw new ResourceNotFoundException(__f('Logger dir %s cannot be writeable.', $dir));
+            }
+        }
+        return $dir;
     }
 
     /**
