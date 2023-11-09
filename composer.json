@@ -7,7 +7,7 @@
             "src/Neo/Functions/functions.php"
         ],
         "psr-4": {
-            "Neo\\": "src/Neo"
+            "forever\\log\\Neo\\": "src/Neo"
         }
     },
     "require": {

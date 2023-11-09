@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo\Exception;
+namespace forever\log\Neo\Exception;
 
 /**
  *  微信支付异常

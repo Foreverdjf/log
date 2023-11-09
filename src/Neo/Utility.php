@@ -1,6 +1,6 @@
 <?php
 
-namespace Neo;
+namespace forever\log\Neo;
 
 /**
  * Class Utility
