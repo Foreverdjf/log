@@ -4,6 +4,9 @@
     "type": "library",
     "license": "MIT",
     "autoload": {
+        "classmap": [
+            "src/CodeIgniter/"
+        ],
         "files": [
             "src/Neo/Functions/functions.php"
         ],
