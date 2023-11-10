@@ -10,8 +10,5 @@
         "psr-4": {
             "Neo\\": "src/Neo"
         }
-    },
-    "require": {
-        "monolog/monolog": "^1.19"
     }
 }
